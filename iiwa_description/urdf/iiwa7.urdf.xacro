@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<robot name="iiwa7" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <!-- Import Rviz colors -->
+  <xacro:include filename="$(find iiwa_description)/urdf/materials.xacro" />
+  <!--Import the lbr iiwa macro -->
+  <xacro:include filename="$(find iiwa_description)/urdf/iiwa7.xacro"/>
+
+  <!--Import the gripper macro -->
+  <xacro:include filename="$(find iiwa_description)/urdf/robotiq_arg2f_85_model_macro.xacro" />
+  
+  <xacro:arg name="hardware_interface" default="PositionJointInterface"/>
+  <xacro:arg name="robot_name" default="iiwa"/>
+  <xacro:arg name="origin_xyz" default="0 0 0"/>
+  <xacro:arg name="origin_rpy" default="0 0 0"/>
+  
+  <!-- Fix to world just for testing -->
+  <link name="world"/>
+  
+  <!--iiwa-->
+  <xacro:iiwa7 hardware_interface="$(arg hardware_interface)" robot_name="$(arg robot_name)" parent="world">
+    <origin xyz="$(arg origin_xyz)" rpy="$(arg origin_rpy)" />
+  </xacro:iiwa7>
+
+  <!--gripper-->
+  <xacro:robotiq_arg2f_85 prefix="" parent="iiwa_link_ee"/>
+
+  <gazebo>
+	<plugin name="mimic_plugin1" filename="/home/chen/plugin_ws/devel/lib/libgazebo_mimic_plugin.so">
+            <joint>finger_joint</joint>
+            <mimicJoint>right_outer_knuckle_joint</mimicJoint>
+            <multiplier>1.0</multiplier>
+        </plugin>
+
+	<plugin name="mimic_plugin2" filename="/home/chen/plugin_ws/devel/lib/libgazebo_mimic_plugin.so">
+            <joint>finger_joint</joint>
+            <mimicJoint>left_inner_knuckle_joint</mimicJoint>
+            <multiplier>1.0</multiplier>
+        </plugin>
+	<plugin name="mimic_plugin3" filename="/home/chen/plugin_ws/devel/lib/libgazebo_mimic_plugin.so">
+            <joint>finger_joint</joint>
+            <mimicJoint>right_inner_knuckle_joint</mimicJoint>
+            <multiplier>1.0</multiplier>
+        </plugin>
+
+	<plugin name="mimic_plugin4" filename="/home/chen/plugin_ws/devel/lib/libgazebo_mimic_plugin.so">
+            <joint>finger_joint</joint>
+            <mimicJoint>left_inner_finger_joint</mimicJoint>
+            <multiplier>-1.0</multiplier>
+        </plugin>
+	<plugin name="mimic_plugin5" filename="/home/chen/plugin_ws/devel/lib/libgazebo_mimic_plugin.so">
+            <joint>finger_joint</joint>
+            <mimicJoint>right_inner_finger_joint</mimicJoint>
+            <multiplier>-1.0</multiplier>
+        </plugin>
+
+  </gazebo>
+  
+</robot>

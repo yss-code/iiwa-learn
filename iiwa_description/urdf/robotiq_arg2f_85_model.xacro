@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<robot name="robotiq_arg2f_85_model" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- Fix to world just for testing -->
+  <link name="world"/>
+
+  <xacro:include filename="$(find iiwa_description)/urdf/robotiq_arg2f_85_model_macro.xacro" />
+  <xacro:robotiq_arg2f_85 prefix="" parent="world"/>
+</robot>
